@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Эльмира Ильясова](https://up.htmlacademy.ru/javascript/20/user/471345).
-* Наставник: `Неизвестно`.
+* Наставник: [Юлия Корецкая] (https://htmlacademy.ru/profile/id11886).
 
 ---
 
