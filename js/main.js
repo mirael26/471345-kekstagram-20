@@ -29,14 +29,16 @@ var createComment = function () {
   return object;
 };
 
+var commentTemplate = document.querySelector('.social__comment').cloneNode(true);
+
 var renderComment = function (commentProperty) {
-  var comment = document.querySelector('.social__comment').cloneNode(true);
+  var comment = commentTemplate.cloneNode(true);
   var picture = comment.querySelector('.social__picture');
   picture.src = commentProperty.avatar;
   picture.alt = commentProperty.name;
   picture.width = AVATAR_WIDTH;
   picture.height = AVATAR_HEIGHT;
-  document.querySelector('.social__text').textContent = commentProperty.message;
+  comment.querySelector('.social__text').textContent = commentProperty.message;
   return comment;
 };
 
@@ -91,8 +93,7 @@ var renderBigPhoto = function (photo) {
   bigPhoto.querySelector('.likes-count').textContent = photo.likes;
   bigPhoto.querySelector('.comments-count').textContent = photo.commentsCount;
   var commentsBlock = bigPhoto.querySelector('.social__comments');
-  commentsBlock.removeChild(commentsBlock.childNodes[0]);
-  commentsBlock.removeChild(commentsBlock.childNodes[0]);
+  commentsBlock.innerHTML = '';
   commentsBlock.appendChild(renderComments(photo.commentsCount));
   bigPhoto.querySelector('.social__caption').textContent = photo.description;
   return bigPhoto;
