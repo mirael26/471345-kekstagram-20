@@ -96,6 +96,3 @@ effectPin.addEventListener('mouseup', function () {
     }
   }
 });
-
-
-
