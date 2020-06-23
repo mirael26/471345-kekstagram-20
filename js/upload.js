@@ -44,9 +44,6 @@ var effectLevel;
 var effectsButtons = document.querySelectorAll('.effects__radio');
 var previewImage = document.querySelector('.img-upload__preview').querySelector('img');
 
-// var getEffectLevel = function () {
-//   effectLevel = Math.round((effectPin.getBoundingClientRect().left - effectLine.getBoundingClientRect().left));
-// };
 var getEffectsArray = function (value) {
   var effects = [
     {
@@ -104,5 +101,25 @@ effectPin.addEventListener('mouseup', function () {
     return effectItem.imageClass === previewImage.className;
   })
   previewImage.style.filter = currentEffect.filter;
+});
 
+var scaleSmaller = document.querySelector('.scale__control--smaller');
+var scaleBigger = document.querySelector('.scale__control--bigger');
+var scaleValue = document.querySelector('.scale__control--value');
+var scaleValueNumber = parseInt(scaleValue.value.replace(/%/g, ''));
+
+scaleSmaller.addEventListener('click', function () {
+  if (scaleValueNumber > 49) {
+    scaleValueNumber -= 25;
+    scaleValue.value = scaleValueNumber + '%';
+    previewImage.style.transform = 'scale(' + scaleValueNumber/100 + ')';
+  }
+});
+
+scaleBigger.addEventListener('click', function () {
+  if (scaleValueNumber < 76) {
+    scaleValueNumber += 25;
+    scaleValue.value = scaleValueNumber + '%';
+    previewImage.style.transform = 'scale(' + scaleValueNumber/100 + ')';
+  }
 });
