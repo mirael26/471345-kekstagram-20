@@ -5,9 +5,10 @@ var EFFECT_LINE_WIDTH = 453;
 var uploadButton = document.querySelector('#upload-file');
 var upload = document.querySelector('.img-upload__overlay');
 var buttonClose = upload.querySelector('#upload-cancel');
+var hashtagsInput = upload.querySelector('.text__hashtags');
 
 var onPopupEscPress = function (evt) {
-  if (evt.key === 'Escape') {
+  if (evt.key === 'Escape' && !hashtagsInput.matches(':focus')) {
     evt.preventDefault();
     popupClose();
   }
@@ -122,4 +123,54 @@ scaleBigger.addEventListener('click', function () {
     scaleValue.value = scaleValueNumber + '%';
     previewImage.style.transform = 'scale(' + scaleValueNumber/100 + ')';
   }
+});
+
+var form = document.querySelector('#upload-select-image');
+// var hashtagTest = /^#[a-zA-Zа-яА-Я1-9]+$/;
+
+var hasDublicates = function (array) {
+  var newArray = array.filter((item, index) => array.indexOf(item) !== index);
+  if (newArray.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function CustomValidation() {
+  this.invalidities = [];
+}
+
+CustomValidation.prototype = {
+  checkValidity: function(input) {
+    var hashtagsArray = input.value.toLowerCase().trim().split(" ");
+    if (hasDublicates(hashtagsArray)) {
+      this.addInvalidity('Хэш-теги не должны повторяться');
+    }
+    if (hashtagsArray.length > 5) {
+      this.addInvalidity('Допускается не более пяти хэш-тегов');
+    }
+    for (var hashtag of hashtagsArray) {
+      if (!hashtag.match(/^#[a-zA-Zа-яА-Я1-9]+$/g) && hashtag.length>0) {
+        this.addInvalidity('Хэш-тег должен начинаться с # и не должен содержать спец.символов');
+      }
+      if (hashtag.length > 20) {
+        this.addInvalidity('Длина хэш-тега не должна превышать 20 символов');
+      }
+    }
+  },
+  addInvalidity: function(message) {
+    this.invalidities.push(message);
+  },
+  getInvalidities: function() {
+    return this.invalidities.join('. \n');
+  }
+};
+
+hashtagsInput.addEventListener('change', function (evt) {
+  var hashtagCustomValidation = new CustomValidation();
+  hashtagCustomValidation.checkValidity(hashtagsInput);
+  var customValidityMessage = hashtagCustomValidation.getInvalidities();
+  console.log(customValidityMessage);
+  hashtagsInput.setCustomValidity(customValidityMessage);
 });
