@@ -126,7 +126,6 @@ scaleBigger.addEventListener('click', function () {
 });
 
 var form = document.querySelector('#upload-select-image');
-// var hashtagTest = /^#[a-zA-Zа-яА-Я1-9]+$/;
 
 var hasDublicates = function (array) {
   var newArray = array.filter((item, index) => array.indexOf(item) !== index);
