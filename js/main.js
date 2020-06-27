@@ -86,7 +86,7 @@ for (var j = 0; j < usersPhotos.length; j++) {
 document.querySelector('.pictures').appendChild(fragment);
 
 var bigPhoto = document.querySelector('.big-picture');
-bigPhoto.classList.remove('hidden');
+// bigPhoto.classList.remove('hidden');
 
 var renderBigPhoto = function (photo) {
   bigPhoto.querySelector('.big-picture__img').querySelector('img').src = photo.url;
@@ -101,6 +101,5 @@ var renderBigPhoto = function (photo) {
 
 bigPhoto.querySelector('.social__comment-count').classList.add('hidden');
 bigPhoto.querySelector('.comments-loader').classList.add('hidden');
-document.querySelector('body').classList.add('modal-open');
 
 renderBigPhoto(usersPhotos[0]);
