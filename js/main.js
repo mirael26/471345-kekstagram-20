@@ -101,6 +101,5 @@ var renderBigPhoto = function (photo) {
 
 bigPhoto.querySelector('.social__comment-count').classList.add('hidden');
 bigPhoto.querySelector('.comments-loader').classList.add('hidden');
-// document.querySelector('body').classList.add('modal-open');
 
 renderBigPhoto(usersPhotos[0]);
