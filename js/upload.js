@@ -4,9 +4,12 @@ var uploadButton = document.querySelector('#upload-file');
 var upload = document.querySelector('.img-upload__overlay');
 var buttonClose = upload.querySelector('#upload-cancel');
 var hashtagsInput = upload.querySelector('.text__hashtags');
+var commentsInput = upload.querySelector('.text__description');
 
 var onPopupEscPress = function (evt) {
-  if (evt.key === 'Escape' && !hashtagsInput.matches(':focus')) {
+  if (evt.key === 'Escape'
+    && !hashtagsInput.matches(':focus')
+    && !commentsInput.matches(':focus')) {
     evt.preventDefault();
     popupClose();
   }

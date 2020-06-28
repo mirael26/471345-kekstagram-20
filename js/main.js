@@ -78,15 +78,15 @@ var renderUsersPhoto = function (photoProperty) {
   return photo;
 };
 
+var pictures = document.querySelector('.pictures');
 var fragment = document.createDocumentFragment();
 for (var j = 0; j < usersPhotos.length; j++) {
   fragment.appendChild(renderUsersPhoto(usersPhotos[j]));
 }
 
-document.querySelector('.pictures').appendChild(fragment);
+pictures.appendChild(fragment);
 
 var bigPhoto = document.querySelector('.big-picture');
-// bigPhoto.classList.remove('hidden');
 
 var renderBigPhoto = function (photo) {
   bigPhoto.querySelector('.big-picture__img').querySelector('img').src = photo.url;
@@ -102,4 +102,56 @@ var renderBigPhoto = function (photo) {
 bigPhoto.querySelector('.social__comment-count').classList.add('hidden');
 bigPhoto.querySelector('.comments-loader').classList.add('hidden');
 
-renderBigPhoto(usersPhotos[0]);
+var bigPhotoButtonClose = bigPhoto.querySelector('.big-picture__cancel');
+
+var onBigPhotoEscPress = function (evt) {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    bigPhotoClose();
+  }
+};
+
+var bigPhotoOpen = function (target) {
+  bigPhoto.classList.remove('hidden');
+  document.querySelector('body').classList.add('modal-open');
+  var currentPhotos = pictures.querySelectorAll('.picture');
+  var currentPhotoArray = [];
+  currentPhotos.forEach(function (photo) {
+    currentPhotoArray.push(photo);
+  });
+  var currentPhotoNumber = currentPhotoArray.indexOf(target);
+  renderBigPhoto(usersPhotos[currentPhotoNumber]);
+  window.addEventListener('keydown', onBigPhotoEscPress);
+};
+
+var bigPhotoClose = function () {
+  bigPhoto.classList.add('hidden');
+  document.querySelector('body').classList.remove('modal-open');
+  window.removeEventListener('keydown', onBigPhotoEscPress);
+};
+
+
+pictures.addEventListener('click', function (evt) {
+  if (
+    evt.target
+    && evt.target.matches('.picture__img')
+  ) {
+    evt.preventDefault();
+    bigPhotoOpen(evt.target.parentElement);
+  }
+});
+
+pictures.addEventListener('keydown', function (evt) {
+  if (
+    evt.key === 'Enter'
+    && evt.target
+    && evt.target.matches('.picture')
+  ) {
+    evt.preventDefault();
+    bigPhotoOpen(evt.target);
+  }
+});
+
+bigPhotoButtonClose.addEventListener('click', function () {
+  bigPhotoClose();
+});
