@@ -1,45 +1,6 @@
 'use strict';
 
 window.form = (function () {
-  var uploadButton = document.querySelector('#upload-file');
-  var upload = document.querySelector('.img-upload__overlay');
-  var buttonClose = upload.querySelector('#upload-cancel');
-  var hashtagsInput = upload.querySelector('.text__hashtags');
-  var commentsInput = upload.querySelector('.text__description');
-
-  var onPopupEscPress = function (evt) {
-    if (evt.key === 'Escape'
-      && !hashtagsInput.matches(':focus')
-      && !commentsInput.matches(':focus')) {
-      evt.preventDefault();
-      popupClose();
-    }
-  };
-
-  var popupOpen = function () {
-    upload.classList.remove('hidden');
-    document.querySelector('body').classList.add('modal-open');
-
-    window.addEventListener('keydown', onPopupEscPress);
-  };
-
-  var popupClose = function () {
-    upload.classList.add('hidden');
-    document.querySelector('body').classList.remove('modal-open');
-
-    window.removeEventListener('keydown', onPopupEscPress);
-    uploadButton.value = '';
-  };
-
-  uploadButton.addEventListener('change', function (evt) {
-    evt.preventDefault();
-    popupOpen();
-  });
-
-  buttonClose.addEventListener('click', function () {
-    popupClose();
-  });
-
   var effectFieldset = document.querySelector('.effect-level');
   var effectPin = effectFieldset.querySelector('.effect-level__pin');
   var effectLine = effectFieldset.querySelector('.effect-level__line');
@@ -127,48 +88,4 @@ window.form = (function () {
     }
   });
 
-  var hasDublicates = function (array) {
-    var newArray = array.filter(function (item, index) {
-      return array.indexOf(item) !== index;
-    });
-    return newArray.length > 0;
-  };
-
-  function CustomValidation() {
-    this.invalidities = [];
-  }
-
-  CustomValidation.prototype = {
-    checkValidity: function (input) {
-      var hashtagsArray = input.value.toLowerCase().trim().split(' ');
-      if (hasDublicates(hashtagsArray)) {
-        this.addInvalidity('Хэш-теги не должны повторяться');
-      }
-      if (hashtagsArray.length > 5) {
-        this.addInvalidity('Допускается не более пяти хэш-тегов');
-      }
-      var that = this;
-      hashtagsArray.forEach(function (hashtag) {
-        if (!hashtag.match(/^#[a-zA-Zа-яА-Я1-9]+$/g) && hashtag.length > 0) {
-          that.addInvalidity('Хэш-тег должен начинаться с # и не должен содержать спец.символов');
-        }
-        if (hashtag.length > 20) {
-          that.addInvalidity('Длина хэш-тега не должна превышать 20 символов');
-        }
-      });
-    },
-    addInvalidity: function (message) {
-      this.invalidities.push(message);
-    },
-    getInvalidities: function () {
-      return this.invalidities.join('. \n');
-    }
-  };
-
-  hashtagsInput.addEventListener('change', function () {
-    var hashtagCustomValidation = new CustomValidation();
-    hashtagCustomValidation.checkValidity(hashtagsInput);
-    var customValidityMessage = hashtagCustomValidation.getInvalidities();
-    hashtagsInput.setCustomValidity(customValidityMessage);
-  });
 })();
