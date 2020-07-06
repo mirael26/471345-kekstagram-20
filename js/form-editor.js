@@ -64,33 +64,24 @@ window.form = (function () {
 
   effectPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
-
-    var startCoords = {
-      x: evt.clientX,
-      y: evt.clientY
-    };
+    var startCoords = evt.clientX;
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
 
-      var effectLineX = effectLine.getBoundingClientRect().x;
       var effectLineWidth = effectLine.getBoundingClientRect().width;
-      if (moveEvt.clientX < effectLineX) {
-        moveEvt.clientX = effectLineX;
+      var shift = startCoords - moveEvt.clientX;
+
+      startCoords = moveEvt.clientX;
+
+      var newCoords = (effectPin.offsetLeft - shift);
+      if (newCoords < (effectPin.clientWidth / 2)) {
+        newCoords = (effectPin.clientWidth / 2);
       }
-      if (moveEvt.clientX > (effectLineX + effectLineWidth)) {
-        moveEvt.clientX = effectLineX + effectLineWidth;
+      if (newCoords > (effectLineWidth - (effectPin.clientWidth / 2))) {
+        newCoords = (effectLineWidth - (effectPin.clientWidth / 2));
       }
-
-      var shift = {
-        x: startCoords.x - moveEvt.clientX
-      };
-
-      startCoords = {
-        x: moveEvt.clientX
-      };
-
-      effectPin.style.left = (effectPin.offsetLeft - shift.x) + 'px';
+      effectPin.style.left = newCoords + 'px';
 
       var effectPinPosition = effectPin.getBoundingClientRect().left;
       var effectLinePosition = effectLine.getBoundingClientRect().left;
