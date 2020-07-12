@@ -7,16 +7,39 @@ window.picture = (function () {
     var photo = usersPhotoTemplate.cloneNode(true);
     photo.querySelector('.picture__img').src = photoProperty.url;
     photo.querySelector('.picture__likes').textContent = photoProperty.likes;
-    photo.querySelector('.picture__comments').textContent = photoProperty.commentsCount;
+    photo.querySelector('.picture__comments').textContent = photoProperty.comments.length;
     return photo;
   };
 
   var pictures = document.querySelector('.pictures');
-  var fragment = document.createDocumentFragment();
+  var photoData = [];
 
-  for (var j = 0; j < window.data.usersPhotos.length; j++) {
-    fragment.appendChild(renderUsersPhoto(window.data.usersPhotos[j]));
-  }
+  var onSuccess = function (data) {
+    var fragment = document.createDocumentFragment();
 
-  pictures.appendChild(fragment);
+    for (var i = 0; i < data.length; i++) {
+      fragment.appendChild(renderUsersPhoto(data[i]));
+    }
+    pictures.appendChild(fragment);
+    console.log(data);
+    photoData = data;
+  };
+
+  var onError = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  window.load(onSuccess, onError);
+
+  return {
+    photoData: photoData
+  };
 })();
