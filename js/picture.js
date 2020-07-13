@@ -12,7 +12,6 @@ window.picture = (function () {
   };
 
   var pictures = document.querySelector('.pictures');
-  var photoData = [];
 
   var onSuccess = function (data) {
     var fragment = document.createDocumentFragment();
@@ -21,8 +20,7 @@ window.picture = (function () {
       fragment.appendChild(renderUsersPhoto(data[i]));
     }
     pictures.appendChild(fragment);
-    console.log(data);
-    photoData = data;
+    window.photoData = data;
   };
 
   var onError = function (errorMessage) {
@@ -39,7 +37,4 @@ window.picture = (function () {
 
   window.load(onSuccess, onError);
 
-  return {
-    photoData: photoData
-  };
 })();

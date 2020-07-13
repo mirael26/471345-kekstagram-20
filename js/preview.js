@@ -17,14 +17,10 @@ window.preview = (function () {
     return comment;
   };
 
-  var renderComments = function (commentsCount) {
-    var comments = [];
-    for (var i = 0; i < commentsCount; i++) {
-      comments.push(window.data.createComment());
-    }
+  var renderComments = function (array) {
     var commentsFragment = document.createDocumentFragment();
-    for (var j = 0; j < comments.length; j++) {
-      commentsFragment.appendChild(renderComment(comments[j]));
+    for (var j = 0; j < array.length; j++) {
+      commentsFragment.appendChild(renderComment(array[j]));
     }
     return commentsFragment;
   };
@@ -37,7 +33,7 @@ window.preview = (function () {
     bigPhoto.querySelector('.comments-count').textContent = photo.commentsCount;
     var commentsBlock = bigPhoto.querySelector('.social__comments');
     commentsBlock.innerHTML = '';
-    commentsBlock.appendChild(renderComments(photo.commentsCount));
+    commentsBlock.appendChild(renderComments(photo.comments));
     bigPhoto.querySelector('.social__caption').textContent = photo.description;
     return bigPhoto;
   };
@@ -60,7 +56,7 @@ window.preview = (function () {
       currentPhotoArray.push(photo);
     });
     var currentPhotoNumber = currentPhotoArray.indexOf(target);
-    renderBigPhoto(window.data.usersPhotos[currentPhotoNumber]);
+    renderBigPhoto(window.photoData[currentPhotoNumber]);
     window.addEventListener('keydown', onBigPhotoEscPress);
   };
 
