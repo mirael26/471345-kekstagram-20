@@ -1,6 +1,6 @@
 'use strict';
 
-window.form = (function () {
+window.formEditor = (function () {
   var EFFECT_DEFAULT_POS = '20%';
   var effectFieldset = document.querySelector('.effect-level');
   var effectPin = effectFieldset.querySelector('.effect-level__pin');
@@ -106,7 +106,6 @@ window.form = (function () {
     document.addEventListener('mouseup', onMouseUp);
   });
 
-
   var scaleSmaller = document.querySelector('.scale__control--smaller');
   var scaleBigger = document.querySelector('.scale__control--bigger');
   var scaleValue = document.querySelector('.scale__control--value');
@@ -128,4 +127,13 @@ window.form = (function () {
     }
   });
 
+  return {
+    cleanFilter: function () {
+      var originFilter = document.querySelector('#effect-none');
+      originFilter.classList.add('checked');
+      previewImage.style.filter = 'none';
+      effectFieldset.classList.add('hidden');
+      previewImage.style.transform = 'scale(1)';
+    }
+  };
 })();

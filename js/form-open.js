@@ -26,6 +26,8 @@ window.formOpen = (function () {
   var popupClose = function () {
     upload.classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
+    window.formEditor.cleanFilter();
+    window.formValidation.cleanInput();
 
     window.removeEventListener('keydown', onPopupEscPress);
     uploadButton.value = '';
