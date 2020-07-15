@@ -6,6 +6,7 @@ window.formOpen = (function () {
   var buttonClose = upload.querySelector('#upload-cancel');
   var hashtagsInput = upload.querySelector('.text__hashtags');
   var commentsInput = upload.querySelector('.text__description');
+  var preview = document.querySelector('.img-upload__preview');
 
   var onPopupEscPress = function (evt) {
     if (evt.key === 'Escape'
@@ -35,7 +36,22 @@ window.formOpen = (function () {
 
   uploadButton.addEventListener('change', function (evt) {
     evt.preventDefault();
+    preview.innerHTML = '';
+    var selectedFile = document.createElement('img');
+    selectedFile.id = 'loadedPreview';
+    selectedFile.file = uploadButton.files[0];
+    preview.appendChild(selectedFile);
+
+    var reader = new FileReader();
+    reader.onload = (function (aImg) {
+      return function (e) {
+        aImg.src = e.target.result;
+      };
+    })(selectedFile);
+    reader.readAsDataURL(selectedFile.file);
     popupOpen();
+    window.previewImage = selectedFile;
+
   });
 
   buttonClose.addEventListener('click', function () {
