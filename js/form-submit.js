@@ -5,14 +5,12 @@ window.formSubmit = (function () {
 
   var onMessageEscPress = function (message, evt) {
     if (evt.key === 'Escape') {
-      evt.preventDefault();
       messageClose(message);
     }
   };
 
   var onMessageOutPress = function (message, evt) {
     if (!message.querySelector('div').contains(evt.target)) {
-      evt.preventDefault();
       messageClose(message);
     }
   };
@@ -21,6 +19,7 @@ window.formSubmit = (function () {
     message.classList.add('hidden');
     window.removeEventListener('keydown', onMessageEscPress);
     window.removeEventListener('click', onMessageOutPress);
+
   };
 
   var addCloseListeners = function (button, message) {
@@ -53,9 +52,9 @@ window.formSubmit = (function () {
     addCloseListeners(closeButton, errorMessage);
   };
 
-
   form.addEventListener('submit', function (evt) {
     window.upload(new FormData(form), showSuccessMessage, showErrorMessage);
     evt.preventDefault();
+    form.reset();
   });
 })();
