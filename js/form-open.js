@@ -36,25 +36,24 @@ window.formOpen = (function () {
 
   uploadButton.addEventListener('change', function (evt) {
     evt.preventDefault();
+    var imageFile = uploadButton.files[0];
     preview.innerHTML = '';
-    var selectedFile = document.createElement('img');
-    selectedFile.id = 'loadedPreview';
-    selectedFile.file = uploadButton.files[0];
-    preview.appendChild(selectedFile);
+    var imageElement = document.createElement('img');
+    imageElement.id = 'loadedPreview';
+    preview.appendChild(imageElement);
 
     var reader = new FileReader();
-    reader.onload = (function (aImg) {
-      return function (e) {
-        aImg.src = e.target.result;
-        var previewIcons = document.querySelectorAll('.effects__preview');
-        previewIcons.forEach(function (icon) {
-          icon.style.backgroundImage = 'url(' + aImg.src + ')';
-        });
-      };
-    })(selectedFile);
-    reader.readAsDataURL(selectedFile.file);
+    reader.onload = function (e) {
+      imageElement.src = e.target.result;
+      var previewIcons = document.querySelectorAll('.effects__preview');
+      previewIcons.forEach(function (icon) {
+        icon.style.backgroundImage = 'url(' + imageElement.src + ')';
+      });
+    };
+
+    reader.readAsDataURL(imageFile);
     popupOpen();
-    window.previewImage = selectedFile;
+    window.previewImage = imageElement;
   });
 
   buttonClose.addEventListener('click', function () {

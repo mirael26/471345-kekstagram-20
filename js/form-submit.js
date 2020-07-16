@@ -53,6 +53,7 @@ window.formSubmit = (function () {
     addCloseListeners(closeButton, errorMessage);
   };
 
+
   form.addEventListener('submit', function (evt) {
     window.upload(new FormData(form), showSuccessMessage, showErrorMessage);
     evt.preventDefault();
