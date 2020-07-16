@@ -46,12 +46,15 @@ window.formOpen = (function () {
     reader.onload = (function (aImg) {
       return function (e) {
         aImg.src = e.target.result;
+        var previewIcons = document.querySelectorAll('.effects__preview');
+        previewIcons.forEach(function (icon) {
+          icon.style.backgroundImage = 'url(' + aImg.src + ')';
+        });
       };
     })(selectedFile);
     reader.readAsDataURL(selectedFile.file);
     popupOpen();
     window.previewImage = selectedFile;
-
   });
 
   buttonClose.addEventListener('click', function () {
