@@ -6,6 +6,7 @@ window.formOpen = (function () {
   var buttonClose = upload.querySelector('#upload-cancel');
   var hashtagsInput = upload.querySelector('.text__hashtags');
   var commentsInput = upload.querySelector('.text__description');
+  var preview = document.querySelector('.img-upload__preview');
 
   var onPopupEscPress = function (evt) {
     if (evt.key === 'Escape'
@@ -26,6 +27,8 @@ window.formOpen = (function () {
   var popupClose = function () {
     upload.classList.add('hidden');
     document.querySelector('body').classList.remove('modal-open');
+    window.formEditor.cleanFilter();
+    window.formValidation.cleanInput();
 
     window.removeEventListener('keydown', onPopupEscPress);
     uploadButton.value = '';
@@ -33,7 +36,24 @@ window.formOpen = (function () {
 
   uploadButton.addEventListener('change', function (evt) {
     evt.preventDefault();
+    var imageFile = uploadButton.files[0];
+    preview.innerHTML = '';
+    var imageElement = document.createElement('img');
+    imageElement.id = 'loadedPreview';
+    preview.appendChild(imageElement);
+
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      imageElement.src = e.target.result;
+      var previewIcons = document.querySelectorAll('.effects__preview');
+      previewIcons.forEach(function (icon) {
+        icon.style.backgroundImage = 'url(' + imageElement.src + ')';
+      });
+    };
+
+    reader.readAsDataURL(imageFile);
     popupOpen();
+    window.previewImage = imageElement;
   });
 
   buttonClose.addEventListener('click', function () {

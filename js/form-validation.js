@@ -2,6 +2,7 @@
 
 window.formValidation = (function () {
   var hashtagsInput = document.querySelector('.text__hashtags');
+  var commentInput = document.querySelector('.text__description');
 
   var hasDublicates = function (array) {
     var newArray = array.filter(function (item, index) {
@@ -47,4 +48,11 @@ window.formValidation = (function () {
     var customValidityMessage = hashtagCustomValidation.getInvalidities();
     hashtagsInput.setCustomValidity(customValidityMessage);
   });
+
+  return {
+    cleanInput: function () {
+      hashtagsInput.textContent = '';
+      commentInput.textContent = '';
+    }
+  };
 })();
