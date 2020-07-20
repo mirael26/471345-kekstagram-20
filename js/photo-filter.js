@@ -23,10 +23,12 @@ window.photoFilter = (function () {
 
         while (result.length < RANDOM_PHOTO_COUNT) {
           var index = getRandom(data.length);
-          result.push(data[index]);
-          result = result.filter(function (element, i, array) {
-            return array.indexOf(element) === i;
-          });
+
+          if (!result.find(function (element) {
+            return element === data[index];
+          })) {
+            result.push(data[index]);
+          }
         }
 
         return result;
@@ -40,9 +42,7 @@ window.photoFilter = (function () {
             return 1;
           } else if (first.comments.length > second.comments.length) {
             return -1;
-          } else {
-            return 0;
-          }
+          } return 0;
         });
         return result;
       }
@@ -52,24 +52,16 @@ window.photoFilter = (function () {
 
   filterButtons.forEach(function (button) {
     button.addEventListener('click', window.debounce(function () {
-      useFilter(button);
-    }));
-    button.addEventListener('keydown', window.debounce(function (evt) {
-      if (evt.key === 'Enter') {
-        useFilter(button);
-      }
+      filterButtons.forEach(function (el) {
+        if (el.classList.contains('img-filters__button--active')) {
+          el.classList.remove('img-filters__button--active');
+        }
+      });
+      button.classList.add('img-filters__button--active');
+      var currentFilter = filters.find(function (obj) {
+        return obj.filterType === button.id;
+      });
+      window.photoRender(currentFilter.findData(window.photoData));
     }));
   });
-
-  var useFilter = function (button) {
-    filterButtons.forEach(function (el) {
-      el.classList.remove('img-filters__button--active');
-    });
-    button.classList.add('img-filters__button--active');
-    var currentFilter = filters.find(function (obj) {
-      return obj.filterType === button.id;
-    });
-    var currentFilterIndex = filters.indexOf(currentFilter);
-    window.photoRender(filters[currentFilterIndex].findData(window.photoData));
-  };
 })();
