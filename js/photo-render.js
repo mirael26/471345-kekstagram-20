@@ -14,6 +14,10 @@ window.photoRender = (function () {
   var pictures = document.querySelector('.pictures');
 
   return function (data) {
+    var oldPhotos = pictures.querySelectorAll('.picture');
+    oldPhotos.forEach(function (photo) {
+      photo.remove();
+    });
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < data.length; i++) {
       fragment.appendChild(renderUsersPhoto(data[i]));
