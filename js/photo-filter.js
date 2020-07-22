@@ -15,36 +15,36 @@ window.photoFilter = (function () {
     {
       filterType: 'filter-random',
       findData: function (data) {
-        var result = [];
+        var results = [];
 
         var getRandom = function (max) {
           return Math.floor(Math.random() * max);
         };
 
-        while (result.length < RANDOM_PHOTO_COUNT) {
+        while (results.length < RANDOM_PHOTO_COUNT) {
           var index = getRandom(data.length);
 
-          if (!result.find(function (element) {
+          if (!results.find(function (element) {
             return element === data[index];
           })) {
-            result.push(data[index]);
+            results.push(data[index]);
           }
         }
 
-        return result;
+        return results;
       }
     },
     {
       filterType: 'filter-discussed',
       findData: function (data) {
-        var result = data.slice().sort(function (first, second) {
+        var results = data.slice().sort(function (first, second) {
           if (first.comments.length < second.comments.length) {
             return 1;
           } else if (first.comments.length > second.comments.length) {
             return -1;
           } return 0;
         });
-        return result;
+        return results;
       }
     }
   ];
