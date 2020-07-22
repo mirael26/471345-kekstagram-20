@@ -33,6 +33,7 @@ window.load = (function () {
 
   var onSuccess = function (data) {
     window.photoData = data;
+    window.currentData = window.photoData;
     window.photoRender(data);
     document.querySelector('.img-filters').classList.remove('img-filters--inactive');
   };

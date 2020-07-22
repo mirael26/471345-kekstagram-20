@@ -61,7 +61,8 @@ window.photoFilter = (function () {
       var currentFilter = filters.find(function (obj) {
         return obj.filterType === button.id;
       });
-      window.photoRender(currentFilter.findData(window.photoData));
+      window.currentData = currentFilter.findData(window.photoData);
+      window.photoRender(window.currentData);
     }));
   });
 })();
