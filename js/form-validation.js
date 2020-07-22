@@ -38,7 +38,6 @@ window.formValidation = (function () {
       this.invalidities.push(message);
     },
     getInvalidities: function () {
-      // hashtagsInput.style.borderColor = 'red';
       return this.invalidities.join('. \n');
     }
   };
