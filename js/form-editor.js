@@ -2,6 +2,11 @@
 
 window.formEditor = (function () {
   var EFFECT_DEFAULT_POS = '20%';
+  var Scale = {
+    MAX_VALUE: 100,
+    MIN_VALUE: 25,
+    STEP: 25
+  };
   var effectFieldset = document.querySelector('.effect-level');
   var effectPin = effectFieldset.querySelector('.effect-level__pin');
   var effectLine = effectFieldset.querySelector('.effect-level__line');
@@ -111,16 +116,16 @@ window.formEditor = (function () {
   var scaleValueNumber = parseInt(scaleValue.value.replace(/%/g, ''), 10);
 
   scaleSmaller.addEventListener('click', function () {
-    if (scaleValueNumber > 49) {
-      scaleValueNumber -= 25;
+    if (scaleValueNumber >= (Scale.MIN_VALUE + Scale.STEP)) {
+      scaleValueNumber -= Scale.STEP;
       scaleValue.value = scaleValueNumber + '%';
       window.previewImage.style.transform = 'scale(' + scaleValueNumber / 100 + ')';
     }
   });
 
   scaleBigger.addEventListener('click', function () {
-    if (scaleValueNumber < 76) {
-      scaleValueNumber += 25;
+    if (scaleValueNumber <= (Scale.MAX_VALUE - Scale.STEP)) {
+      scaleValueNumber += Scale.STEP;
       scaleValue.value = scaleValueNumber + '%';
       window.previewImage.style.transform = 'scale(' + scaleValueNumber / 100 + ')';
     }
