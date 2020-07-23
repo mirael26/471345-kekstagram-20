@@ -90,14 +90,14 @@ window.formEditor = (function () {
       var effectPinPosition = effectPin.getBoundingClientRect().left;
       var effectLinePosition = effectLine.getBoundingClientRect().left;
       var effectPinWidth = effectPin.clientWidth;
-      var effectValue = effectFieldset.querySelector('.effect-level__value').value;
+      var effectValue = effectFieldset.querySelector('.effect-level__value');
       var effectLevel = Math.round((effectPinPosition - effectLinePosition + (effectPinWidth / 2)));
-      effectValue = effectLevel;
-      var currentEffect = getEffectsArray(effectValue, effectLineWidth).find(function (effectItem) {
+      effectValue.setAttribute('value', effectLevel);
+      var currentEffect = getEffectsArray(effectLevel, effectLineWidth).find(function (effectItem) {
         return effectItem.imageClass === window.previewImage.className;
       });
       window.previewImage.style.filter = currentEffect.filter;
-      effectLineDepth.style.width = (effectValue / effectLineWidth * 100) + '%';
+      effectLineDepth.style.width = (effectLevel / effectLineWidth * 100) + '%';
     };
 
     var onMouseUp = function (upEvt) {
