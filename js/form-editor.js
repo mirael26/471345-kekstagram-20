@@ -2,6 +2,7 @@
 
 window.formEditor = (function () {
   var EFFECT_DEFAULT_POS = '20%';
+  var DEFAULT_EFFECT_VALUE = 20;
   var Scale = {
     MAX_VALUE: 100,
     MIN_VALUE: 25,
@@ -13,34 +14,16 @@ window.formEditor = (function () {
   var effectLineDepth = effectFieldset.querySelector('.effect-level__depth');
   var effectsButtons = document.querySelectorAll('.effects__radio');
 
-  var getEffectsArray = function (value, lineWidth) {
-    var effects = [
-      {
-        imageClass: 'effects__preview-chrome',
-        filter: 'grayscale(' + 1 * (value / lineWidth) + ')'
-      },
-      {
-        imageClass: 'effects__preview-sepia',
-        filter: 'sepia(' + 1 * (value / lineWidth) + ')'
-      },
-      {
-        imageClass: 'effects__preview-marvin',
-        filter: 'invert(' + 100 * (value / lineWidth) + '%)'
-      },
-      {
-        imageClass: 'effects__preview-phobos',
-        filter: 'blur(' + 3 * (value / lineWidth) + 'px)'
-      },
-      {
-        imageClass: 'effects__preview-heat',
-        filter: 'brightness(' + (2 * (value / lineWidth) + 1) + ')'
-      },
-      {
-        imageClass: 'effects__preview-none',
-        filter: 'none'
-      }
-    ];
-    return effects;
+  var getEffectsMap = function (effectLevelRate) {
+    var classToFilter = {
+      'effects__preview-chrome': 'grayscale(' + 1 * effectLevelRate + ')',
+      'effects__preview-sepia': 'sepia(' + 1 * effectLevelRate + ')',
+      'effects__preview-marvin': 'invert(' + 100 * effectLevelRate + '%)',
+      'effects__preview-phobos': 'blur(' + 3 * effectLevelRate + 'px)',
+      'effects__preview-heat': 'brightness(' + (2 * effectLevelRate + 1) + ')',
+      'effects__preview-none': 'none'
+    };
+    return classToFilter;
   };
 
   effectFieldset.classList.add('hidden');
@@ -54,12 +37,12 @@ window.formEditor = (function () {
       } else {
         effectFieldset.classList.remove('hidden');
       }
-      var effectValue = effectFieldset.querySelector('.effect-level__value').value;
+      var effectValue = effectFieldset.querySelector('.effect-level__value');
+      effectValue.setAttribute('value', DEFAULT_EFFECT_VALUE);
       var effectLineWidth = effectFieldset.querySelector('.effect-level__line').clientWidth;
-      var currentEffect = getEffectsArray(effectValue, effectLineWidth).find(function (effectItem) {
-        return effectItem.imageClass === effectClassName;
-      });
-      window.previewImage.style.filter = currentEffect.filter;
+      var effectLevelRate = DEFAULT_EFFECT_VALUE / effectLineWidth;
+      var classToFilter = getEffectsMap(effectLevelRate);
+      window.previewImage.style.filter = classToFilter[effectClassName];
 
       effectPin.style.left = EFFECT_DEFAULT_POS;
       effectLineDepth.style.width = EFFECT_DEFAULT_POS;
@@ -93,10 +76,9 @@ window.formEditor = (function () {
       var effectValue = effectFieldset.querySelector('.effect-level__value');
       var effectLevel = Math.round((effectPinPosition - effectLinePosition + (effectPinWidth / 2)));
       effectValue.setAttribute('value', effectLevel);
-      var currentEffect = getEffectsArray(effectLevel, effectLineWidth).find(function (effectItem) {
-        return effectItem.imageClass === window.previewImage.className;
-      });
-      window.previewImage.style.filter = currentEffect.filter;
+      var effectLevelRate = effectLevel / effectLineWidth;
+      var classToFilter = getEffectsMap(effectLevelRate);
+      window.previewImage.style.filter = classToFilter[window.previewImage.className];
       effectLineDepth.style.width = (effectLevel / effectLineWidth * 100) + '%';
     };
 
