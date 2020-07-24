@@ -29,7 +29,9 @@ window.formEditor = (function () {
   effectFieldset.classList.add('hidden');
   effectsButtons.forEach(function (effect) {
     effect.addEventListener('change', function (evt) {
-      window.previewImage.removeAttribute('class');
+      if (window.previewImage.className) {
+        window.previewImage.classList.remove(window.previewImage.className);
+      }
       var effectClassName = 'effects__preview-' + evt.target.value;
       window.previewImage.classList.add(effectClassName);
       if (window.previewImage.classList.contains('effects__preview-none')) {
