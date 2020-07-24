@@ -1,6 +1,7 @@
 'use strict';
 
 window.formSubmit = (function () {
+  var URL = 'https://javascript.pages.academy/kekstagram';
   var form = document.querySelector('#upload-select-image');
 
   var onMessageEscPress = function (message, evt) {
@@ -53,8 +54,16 @@ window.formSubmit = (function () {
   };
 
   form.addEventListener('submit', function (evt) {
-    window.upload(new FormData(form), showSuccessMessage, showErrorMessage);
+    var options = {
+      url: URL,
+      method: 'POST',
+      onSuccess: showSuccessMessage,
+      onError: showErrorMessage,
+      data: new FormData(form)
+    };
+    window.request(options);
     evt.preventDefault();
     form.reset();
+    window.formOpen.popupClose();
   });
 })();

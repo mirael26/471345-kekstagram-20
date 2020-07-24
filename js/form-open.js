@@ -70,4 +70,8 @@ window.formOpen = (function () {
   buttonClose.addEventListener('click', function () {
     popupClose();
   });
+
+  return {
+    popupClose: popupClose
+  };
 })();
