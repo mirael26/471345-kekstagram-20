@@ -19,9 +19,9 @@ window.photoRender = (function () {
       photo.remove();
     });
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < data.length; i++) {
-      fragment.appendChild(renderUsersPhoto(data[i]));
-    }
+    data.forEach(function (element) {
+      fragment.appendChild(renderUsersPhoto(element));
+    });
     pictures.appendChild(fragment);
   };
 })();

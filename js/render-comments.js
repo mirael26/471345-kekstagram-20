@@ -19,9 +19,9 @@ window.renderComments = (function () {
 
   return function (array) {
     var commentsFragment = document.createDocumentFragment();
-    for (var i = 0; i < array.length; i++) {
-      commentsFragment.appendChild(renderComment(array[i]));
-    }
+    array.forEach(function (element) {
+      commentsFragment.appendChild(renderComment(element));
+    });
     return commentsFragment;
   };
 })();
